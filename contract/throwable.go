@@ -1,6 +1,6 @@
 package contract
 
-import "github.com/gopi-frame/support/contract"
+import "github.com/gopi-frame/contract"
 
 type Throwable interface {
 	error
