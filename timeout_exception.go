@@ -1,13 +1,20 @@
 package exception
 
+import "github.com/gopi-frame/exception/contract"
+
 // TimeoutException timeout exception
 type TimeoutException struct {
-	*Exception
+	contract.Throwable
+}
+
+func (e TimeoutException) Unwrap() error {
+	return e.Throwable
 }
 
 // NewTimeoutException new timeout exception
 func NewTimeoutException() *TimeoutException {
-	return &TimeoutException{
-		Exception: NewException("TimeoutException: timeout"),
+	exp := TimeoutException{
+		Throwable: New("TimeoutException: timeout"),
 	}
+	return &exp
 }

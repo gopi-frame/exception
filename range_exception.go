@@ -1,12 +1,20 @@
 package exception
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/gopi-frame/exception/contract"
+)
 
 // RangeException range exception
 type RangeException struct {
-	*Exception
+	contract.Throwable
 	start *int
 	end   *int
+}
+
+func (e RangeException) Unwrap() error {
+	return e.Throwable
 }
 
 func (e *RangeException) Error() string {
@@ -29,9 +37,9 @@ func (e *RangeException) Error() string {
 
 // NewRangeException new range exception
 func NewRangeException(start int, end int) *RangeException {
-	exp := new(RangeException)
+	exp := RangeException{}
 	exp.start = &start
 	exp.end = &end
-	exp.Exception = NewException()
-	return exp
+	exp.Throwable = New()
+	return &exp
 }

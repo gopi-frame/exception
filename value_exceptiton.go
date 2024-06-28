@@ -1,10 +1,14 @@
 package exception
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/gopi-frame/exception/contract"
+)
 
 // ValueException exception with value
 type ValueException struct {
-	*Exception
+	contract.Throwable
 	Value any
 }
 
@@ -16,6 +20,6 @@ func NewValueException(v any) *ValueException {
 	if v != nil {
 		message += fmt.Sprintf(": %v", v)
 	}
-	exp.Exception = NewException(message)
+	exp.Throwable = New(message)
 	return exp
 }

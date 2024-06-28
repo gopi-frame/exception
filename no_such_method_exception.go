@@ -3,13 +3,19 @@ package exception
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/gopi-frame/exception/contract"
 )
 
 // NoSuchMethodException no such method exception
 type NoSuchMethodException struct {
-	*Exception
+	contract.Throwable
 	method       string
 	receiverType reflect.Type
+}
+
+func (e NoSuchMethodException) Unwrap() error {
+	return e.Throwable
 }
 
 // NewNoSuchMethodException new no such method exception
@@ -17,14 +23,14 @@ func NewNoSuchMethodException(receiver any, method string) *NoSuchMethodExceptio
 	exp := new(NoSuchMethodException)
 	exp.method = method
 	exp.receiverType = reflect.TypeOf(receiver)
-	exp.Exception = NewException(fmt.Sprintf("NoSuchMethodException: no such method %s in %s", exp.method, exp.receiverType.Name()))
+	exp.Throwable = New(fmt.Sprintf("NoSuchMethodException: no such method %s in %s", exp.method, exp.receiverType.Name()))
 	return exp
 }
 
 // NewUnexportedMethodException new unexport method exception
 func NewUnexportedMethodException(method string) *NoSuchMethodException {
-	exp := new(NoSuchMethodException)
+	exp := NoSuchMethodException{}
 	exp.method = method
-	exp.Exception = NewException(fmt.Sprintf("NoSuchMethodException: method %s is not exported", method))
-	return exp
+	exp.Throwable = New(fmt.Sprintf("NoSuchMethodException: method %s is not exported", method))
+	return &exp
 }

@@ -4,56 +4,46 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-
-	"github.com/gopi-frame/contract/exception"
 )
 
-var _ exception.Throwable = new(Exception)
-
 // Exception exception
-type Exception struct {
-	previous   exception.Throwable
+type exception struct {
+	cause      error
 	message    string
 	stackTrace string
 }
 
-func (exception *Exception) Error() string {
-	return exception.message
-}
-
-// SetMessage set error message
-func (exception *Exception) SetMessage(message string) exception.Throwable {
-	exception.message = message
-	return exception
-}
-
-// SetStackTrace set stack trace
-func (exception *Exception) SetStackTrace(stackTrace string) exception.Throwable {
-	exception.stackTrace = stackTrace
-	return exception
-}
-
 // StackTrace returns stack trace
-func (exception *Exception) StackTrace() string {
-	return exception.stackTrace
+func (e *exception) StackTrace() string {
+	return e.stackTrace
 }
 
-// SetPrevious set previous exception
-func (exception *Exception) SetPrevious(e exception.Throwable) exception.Throwable {
-	exception.previous = e
-	return exception
+// Unwrap unwrap error
+func (e *exception) Unwrap() error {
+	return e.cause
 }
 
-// Previous returns previous exception
-func (exception *Exception) Previous() exception.Throwable {
-	return exception.previous
+func (e *exception) Error() string {
+	var str = new(strings.Builder)
+	if strings.TrimSpace(e.message) != "" {
+		str.WriteString(e.message)
+	}
+	if e.cause != nil {
+		str.WriteByte(':')
+		str.WriteByte(' ')
+		str.WriteString(e.cause.Error())
+	}
+	return str.String()
 }
 
-// NewException new Exception
-func NewException(messages ...string) *Exception {
+func (e *exception) String() string {
+	return e.Error()
+}
+
+func stack() string {
 	var stackTrace = ""
-	pcs := make([]uintptr, 16)
-	n := runtime.Callers(0, pcs)
+	pcs := make([]uintptr, 32)
+	n := runtime.Callers(3, pcs)
 	frames := runtime.CallersFrames(pcs[:n])
 	for {
 		frame, more := frames.Next()
@@ -70,7 +60,28 @@ func NewException(messages ...string) *Exception {
 			break
 		}
 	}
-	return new(Exception).
-		SetStackTrace(stackTrace).
-		SetMessage(strings.Join(messages, "\n")).(*Exception)
+	return stackTrace
+}
+
+func New(messages ...string) *exception {
+	e := exception{}
+	e.message = strings.Join(messages, "\n")
+	e.stackTrace = stack()
+	return &e
+}
+
+func Wrap(err error) *exception {
+	e := exception{}
+	e.cause = err
+	e.stackTrace = stack()
+	return &e
+}
+
+// WithMessage new exception
+func WithMessage(err error, message string) *exception {
+	e := exception{}
+	e.cause = err
+	e.message = message
+	e.stackTrace = stack()
+	return &e
 }

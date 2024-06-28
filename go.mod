@@ -2,10 +2,7 @@ module github.com/gopi-frame/exception
 
 go 1.22.2
 
-require (
-	github.com/gopi-frame/contract v0.0.0-20240517013806-dc3242b222d8
-	github.com/stretchr/testify v1.9.0
-)
+require github.com/stretchr/testify v1.9.0
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

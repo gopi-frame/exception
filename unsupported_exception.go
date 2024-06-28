@@ -1,13 +1,15 @@
 package exception
 
+import "github.com/gopi-frame/exception/contract"
+
 // UnsupportedException unsupported exception
 type UnsupportedException struct {
-	*Exception
+	contract.Throwable
 }
 
 // NewUnsupportedException new unsupported exception
 func NewUnsupportedException(message string) *UnsupportedException {
 	return &UnsupportedException{
-		Exception: NewException("Unsupported operation: " + message),
+		Throwable: New("Unsupported operation: " + message),
 	}
 }
