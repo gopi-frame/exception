@@ -1,10 +1,10 @@
 package exception
 
-import "github.com/gopi-frame/exception/contract"
+import ec "github.com/gopi-frame/contract/exception"
 
 // TypeException type exception
 type TypeException struct {
-	contract.Throwable
+	ec.Throwable
 }
 
 func (e TypeException) Unwrap() error {

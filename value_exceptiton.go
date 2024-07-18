@@ -3,12 +3,12 @@ package exception
 import (
 	"fmt"
 
-	"github.com/gopi-frame/exception/contract"
+	ec "github.com/gopi-frame/contract/exception"
 )
 
 // ValueException exception with value
 type ValueException struct {
-	contract.Throwable
+	ec.Throwable
 	Value any
 }
 

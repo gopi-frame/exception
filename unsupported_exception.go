@@ -1,10 +1,10 @@
 package exception
 
-import "github.com/gopi-frame/exception/contract"
+import ec "github.com/gopi-frame/contract/exception"
 
 // UnsupportedException unsupported exception
 type UnsupportedException struct {
-	contract.Throwable
+	ec.Throwable
 }
 
 // NewUnsupportedException new unsupported exception

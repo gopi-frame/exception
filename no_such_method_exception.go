@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/gopi-frame/exception/contract"
+	ec "github.com/gopi-frame/contract/exception"
 )
 
 // NoSuchMethodException no such method exception
 type NoSuchMethodException struct {
-	contract.Throwable
+	ec.Throwable
 	method       string
 	receiverType reflect.Type
 }

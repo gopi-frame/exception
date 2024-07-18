@@ -3,12 +3,12 @@ package exception
 import (
 	"fmt"
 
-	"github.com/gopi-frame/exception/contract"
+	ec "github.com/gopi-frame/contract/exception"
 )
 
 // RangeException range exception
 type RangeException struct {
-	contract.Throwable
+	ec.Throwable
 	start *int
 	end   *int
 }

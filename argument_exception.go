@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gopi-frame/exception/contract"
+	ec "github.com/gopi-frame/contract/exception"
 )
 
 // ArgumentException argument exception
 type ArgumentException struct {
-	contract.Throwable
+	ec.Throwable
 	name         string
 	invalidValue any
 }

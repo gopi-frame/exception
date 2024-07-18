@@ -4,6 +4,8 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+
+	ec "github.com/gopi-frame/contract/exception"
 )
 
 // Exception exception
@@ -63,14 +65,14 @@ func stack() string {
 	return stackTrace
 }
 
-func New(messages ...string) *exception {
+func New(messages ...string) ec.Throwable {
 	e := exception{}
 	e.message = strings.Join(messages, "\n")
 	e.stackTrace = stack()
 	return &e
 }
 
-func Wrap(err error) *exception {
+func Wrap(err error) ec.Throwable {
 	e := exception{}
 	e.cause = err
 	e.stackTrace = stack()
@@ -78,7 +80,7 @@ func Wrap(err error) *exception {
 }
 
 // WithMessage new exception
-func WithMessage(err error, message string) *exception {
+func WithMessage(err error, message string) ec.Throwable {
 	e := exception{}
 	e.cause = err
 	e.message = message
