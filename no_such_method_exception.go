@@ -27,7 +27,7 @@ func NewNoSuchMethodException(receiver any, method string) *NoSuchMethodExceptio
 	return exp
 }
 
-// NewUnexportedMethodException new unexport method exception
+// NewUnexportedMethodException new unexported method exception
 func NewUnexportedMethodException(method string) *NoSuchMethodException {
 	exp := NoSuchMethodException{}
 	exp.method = method
