@@ -20,7 +20,7 @@ func (e *exception) StackTrace() string {
 	return e.stackTrace
 }
 
-// Unwrap unwrap error
+// Unwrap unwrap exception
 func (e *exception) Unwrap() error {
 	return e.cause
 }
